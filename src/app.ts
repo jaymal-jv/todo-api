@@ -7,10 +7,11 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit'
 import { MESSAGE, STATUS_CODES } from './utils/constants';
 import connectDB from './config/db';
+import { startCronJob } from './utils/cron';
 dotenv.config();
 
 connectDB();
-
+startCronJob();
 const app = express();
 // Middleware for security headers
 app.use(helmet());

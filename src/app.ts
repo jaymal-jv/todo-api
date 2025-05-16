@@ -41,7 +41,7 @@ app.use('/api/todos', todoRoutes);
 // Global error-handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'Something went wrong!' });
+  res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: MESSAGE.SOMETHING_WENT_WRONG });
 });
 
 const PORT = process.env.PORT || 3000;

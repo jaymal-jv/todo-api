@@ -8,7 +8,8 @@ export const MESSAGE = {
     TODO_DELETED: 'Todo deleted successfully',
     UNAUTHORIZED: 'Unauthorized',
     NOT_FOUND: 'Todo not found',
-    MANY_REQUESTS: 'Too many requests from this IP, please try again later.'
+    MANY_REQUESTS: 'Too many requests from this IP, please try again later.',
+    SOMETHING_WENT_WRONG: 'Something went wrong!'
   };
 
   export const STATUS_CODES = {

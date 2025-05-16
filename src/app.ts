@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
+import todoRoutes from './routes/todo';
 import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit'
@@ -33,6 +34,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/todos', todoRoutes);
 
 
 // Global error-handling middleware

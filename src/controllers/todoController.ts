@@ -23,13 +23,36 @@ export const createTodo = async (req: AuthRequest, res: Response) => {
 };
 
 export const getTodos = async (req: AuthRequest, res: Response) => {
-  try {
-    const todos = await Todo.find({ user: req.user!.userId });
-    res.json(todos);
-  } catch (error) {
-    res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: MESSAGE.SERVER_ERROR });
-  }
-};
+    try {
+      const { page = 1, limit = 10 } = req.query;
+  
+      const pageNumber = parseInt(page as string, 10);
+      const limitNumber = parseInt(limit as string, 10);
+      const skip = (pageNumber - 1) * limitNumber;
+
+      const userId = req.user?.userId;
+
+      // Run both queries in parallel for better performance
+      const [todos, totalTodos] = await Promise.all([
+        Todo.find({ user: userId })
+          .sort({ dueDate: -1 })
+          .skip(skip)
+          .limit(limitNumber),
+  
+        Todo.countDocuments({ user: userId })
+      ]);
+  
+      res.json({
+        todos,
+        totalTodos,
+        totalPages: Math.ceil(totalTodos / limitNumber),
+        currentPage: pageNumber,
+      });
+    } catch (error) {
+      res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: MESSAGE.SERVER_ERROR });
+    }
+  };
+  
 
 export const updateTodo = async (req: AuthRequest, res: Response): Promise<any> => {
   try {
